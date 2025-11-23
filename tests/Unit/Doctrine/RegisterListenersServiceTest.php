@@ -166,13 +166,12 @@ class RegisterListenersServiceTest extends TestCase
     {
         $dispatcher = $this->createDispatcherMock();
         $dispatcher
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('addListener')
-            ->with(Events::PRE_FETCH_OBJECTS, $this->isInstanceOf(\Closure::class));
-        $dispatcher
-            ->expects($this->at(1))
-            ->method('addListener')
-            ->with(Events::PRE_INSERT_OBJECTS, $this->isInstanceOf(\Closure::class));
+            ->withConsecutive(
+                [Events::PRE_FETCH_OBJECTS, $this->isInstanceOf(\Closure::class)],
+                [Events::PRE_INSERT_OBJECTS, $this->isInstanceOf(\Closure::class)]
+            );
 
         $service = new RegisterListenersService($dispatcher);
 
@@ -234,13 +233,12 @@ class RegisterListenersServiceTest extends TestCase
 
         $dispatcher = $this->createDispatcherMock();
         $dispatcher
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('addListener')
-            ->with(Events::PRE_FETCH_OBJECTS, $this->isInstanceOf(\Closure::class));
-        $dispatcher
-            ->expects($this->at(1))
-            ->method('addListener')
-            ->with(Events::PRE_INSERT_OBJECTS, $this->isInstanceOf(\Closure::class));
+            ->withConsecutive(
+                [Events::PRE_FETCH_OBJECTS, $this->isInstanceOf(\Closure::class)],
+                [Events::PRE_INSERT_OBJECTS, $this->isInstanceOf(\Closure::class)]
+            );
 
         $service = new RegisterListenersService($dispatcher);
 
