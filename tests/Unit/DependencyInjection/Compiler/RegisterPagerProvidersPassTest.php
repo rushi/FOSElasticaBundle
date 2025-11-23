@@ -146,6 +146,7 @@ class RegisterPagerProvidersPassTest extends TestCase
     {
         $definition = new Definition(PagerProviderInterface::class);
         $definition->addTag('fos_elastica.pager_provider', $attributes);
+        $definition->setPublic(true);
 
         return $definition;
     }

@@ -173,12 +173,12 @@ class ModelToElasticaAutoTransformerTest extends TestCase
             ->method('dispatch')
             ->withConsecutive(
                 [
-                    TransformEvent::PRE_TRANSFORM,
                     $this->isInstanceOf(TransformEvent::class),
+                    TransformEvent::PRE_TRANSFORM,
                 ],
                 [
-                    TransformEvent::POST_TRANSFORM,
                     $this->isInstanceOf(TransformEvent::class),
+                    TransformEvent::POST_TRANSFORM,
                 ]
             );
 
@@ -286,12 +286,10 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $this->assertTrue(array_key_exists('nullValue', $data));
     }
 
-    /**
-     * @expectedException \Symfony\Component\PropertyAccess\Exception\RuntimeException
-     */
     public function testThatCannotTransformObjectWhenGetterDoesNotExistForPrivateMethod()
     {
         $transformer = $this->getTransformer();
+        $this->expectException(\Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException::class);
         $transformer->transform(new POPO3(), ['desc' => []]);
     }
 

@@ -20,3 +20,25 @@ if (interface_exists('Doctrine\\Persistence\\ObjectRepository') && !interface_ex
 if (class_exists('Doctrine\\Persistence\\Event\\LifecycleEventArgs') && !class_exists('Doctrine\\Common\\Persistence\\Event\\LifecycleEventArgs')) {
     class_alias('Doctrine\\Persistence\\Event\\LifecycleEventArgs', 'Doctrine\\Common\\Persistence\\Event\\LifecycleEventArgs');
 }
+// MongoDB ODM DocumentRepository legacy FQCN alias
+if (class_exists('Doctrine\\ODM\\MongoDB\\Repository\\DocumentRepository') && !class_exists('Doctrine\\ODM\\MongoDB\\DocumentRepository')) {
+    class_alias('Doctrine\\ODM\\MongoDB\\Repository\\DocumentRepository', 'Doctrine\\ODM\\MongoDB\\DocumentRepository');
+}
+
+// Provide legacy Symfony Event base class stub for libraries (e.g. knp-components) still extending it.
+namespace Symfony\Component\EventDispatcher;
+if (!class_exists(Event::class)) {
+    class Event {
+        private $propagationStopped = false;
+
+        public function stopPropagation(): void
+        {
+            $this->propagationStopped = true;
+        }
+
+        public function isPropagationStopped(): bool
+        {
+            return $this->propagationStopped;
+        }
+    }
+}

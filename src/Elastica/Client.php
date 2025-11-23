@@ -12,6 +12,7 @@
 namespace FOS\ElasticaBundle\Elastica;
 
 use Elastica\Client as BaseClient;
+use Elastica\Response;
 use Elastica\Exception\ClientException;
 use Elastica\Request;
 use FOS\ElasticaBundle\Logger\ElasticaLogger;
@@ -82,9 +83,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param string $name
-     *
-     * @return Index|mixed
+     * {@inheritdoc}
      */
     public function getIndex($name)
     {
@@ -92,6 +91,7 @@ class Client extends BaseClient
             return $this->indexCache[$name];
         }
 
+        // Our local Index class extends \Elastica\Index so it satisfies the return type.
         return $this->indexCache[$name] = new Index($this, $name);
     }
 

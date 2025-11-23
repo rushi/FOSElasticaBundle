@@ -98,11 +98,10 @@ class AliasProcessorTest extends TestCase
         $this->processor->switchIndexAlias($indexConfig, $index, false);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testSwitchAliasThrowsWhenMoreThanOneExists()
     {
+        $this->expectException(\RuntimeException::class);
+
         $indexConfig = new IndexConfig('name', [], []);
         list($index, $client) = $this->getMockedIndex('unique_name');
 
@@ -117,11 +116,10 @@ class AliasProcessorTest extends TestCase
         $this->processor->switchIndexAlias($indexConfig, $index, false);
     }
 
-    /**
-     * @expectedException \FOS\ElasticaBundle\Exception\AliasIsIndexException
-     */
     public function testSwitchAliasThrowsWhenAliasIsAnIndex()
     {
+        $this->expectException(\FOS\ElasticaBundle\Exception\AliasIsIndexException::class);
+
         $indexConfig = new IndexConfig('name', [], []);
         list($index, $client) = $this->getMockedIndex('unique_name');
 

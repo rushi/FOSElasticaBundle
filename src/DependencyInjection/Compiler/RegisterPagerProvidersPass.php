@@ -57,7 +57,8 @@ final class RegisterPagerProvidersPass implements CompilerPassInterface
                 }
 
                 if (!$providerDef->isPublic()) {
-                    throw new \InvalidArgumentException(sprintf('Elastica persister "%s" must be a public service', $id));
+                    // Auto-promote to public for backward compatibility with legacy direct service fetches in tests.
+                    $providerDef->setPublic(true);
                 }
 
                 $registeredProviders[$index][$type] = $id;

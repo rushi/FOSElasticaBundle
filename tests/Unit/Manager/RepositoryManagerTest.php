@@ -53,11 +53,10 @@ class RepositoryManagerTest extends TestCase
         $this->assertInstanceOf(CustomRepository::class, $repository);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testThatGetRepositoryThrowsExceptionIfEntityNotConfigured()
     {
+        $this->expectException(\RuntimeException::class);
+
         $finderMock = $this->createMock(TransformedFinder::class);
 
         $typeName = 'index/type';
@@ -67,11 +66,10 @@ class RepositoryManagerTest extends TestCase
         $manager->getRepository('Missing type');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testThatGetRepositoryThrowsExceptionIfCustomRepositoryNotFound()
     {
+        $this->expectException(\RuntimeException::class);
+
         $finderMock = $this->createMock(TransformedFinder::class);
 
         $typeName = 'index/type';

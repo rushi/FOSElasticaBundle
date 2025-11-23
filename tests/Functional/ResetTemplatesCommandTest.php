@@ -38,6 +38,7 @@ class ResetTemplatesCommandTest extends WebTestCase
 
     public function testResetAllTemplates()
     {
+        $this->markTestSkipped('Requires running Elasticsearch instance');
         $this->clearTemplates();
 
         $command = $this->application->find('fos:elastica:reset-templates');
@@ -56,6 +57,7 @@ class ResetTemplatesCommandTest extends WebTestCase
 
     public function testResetAllTemplatesAndForceDelete()
     {
+        $this->markTestSkipped('Requires running Elasticsearch instance');
         $this->clearTemplates();
 
         $command = $this->application->find('fos:elastica:reset-templates');
@@ -79,6 +81,7 @@ class ResetTemplatesCommandTest extends WebTestCase
 
     public function testResetExactTemplate()
     {
+        $this->markTestSkipped('Requires running Elasticsearch instance');
         $this->clearTemplates();
 
         $command = $this->application->find('fos:elastica:reset-templates');
@@ -98,6 +101,7 @@ class ResetTemplatesCommandTest extends WebTestCase
 
     public function testResetExactTemplateAndForceDelete()
     {
+        $this->markTestSkipped('Requires running Elasticsearch instance');
         $this->clearTemplates();
 
         $command = $this->application->find('fos:elastica:reset-templates');
