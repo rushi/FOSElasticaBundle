@@ -174,7 +174,7 @@ class PopulateCommand extends Command
     protected function populateIndex(OutputInterface $output, $index, $reset, $options)
     {
         $event = new IndexPopulateEvent($index, $reset, $options);
-        $this->dispatcher->dispatch(IndexPopulateEvent::PRE_INDEX_POPULATE, $event);
+        $this->dispatcher->dispatch($event, IndexPopulateEvent::PRE_INDEX_POPULATE);
 
         if ($event->isReset()) {
             $output->writeln(sprintf('<info>Resetting</info> <comment>%s</comment>', $index));
@@ -186,7 +186,7 @@ class PopulateCommand extends Command
             $this->populateIndexType($output, $index, $type, false, $event->getOptions());
         }
 
-        $this->dispatcher->dispatch(IndexPopulateEvent::POST_INDEX_POPULATE, $event);
+        $this->dispatcher->dispatch($event, IndexPopulateEvent::POST_INDEX_POPULATE);
 
         $this->refreshIndex($output, $index);
     }
@@ -203,7 +203,7 @@ class PopulateCommand extends Command
     protected function populateIndexType(OutputInterface $output, $index, $type, $reset, $options)
     {
         $event = new TypePopulateEvent($index, $type, $reset, $options);
-        $this->dispatcher->dispatch(TypePopulateEvent::PRE_TYPE_POPULATE, $event);
+        $this->dispatcher->dispatch($event, TypePopulateEvent::PRE_TYPE_POPULATE);
 
         if ($event->isReset()) {
             $output->writeln(sprintf('<info>Resetting</info> <comment>%s/%s</comment>', $index, $type));
@@ -215,7 +215,7 @@ class PopulateCommand extends Command
 
         $this->dispatcher->addListener(
             Events::ON_EXCEPTION,
-            function(OnExceptionEvent $event) use ($loggerClosure) {
+            function (OnExceptionEvent $event) use ($loggerClosure) {
                 $loggerClosure(
                     count($event->getObjects()),
                     $event->getPager()->getNbResults(),
@@ -226,20 +226,20 @@ class PopulateCommand extends Command
 
         $this->dispatcher->addListener(
             Events::POST_INSERT_OBJECTS,
-            function(PostInsertObjectsEvent $event) use ($loggerClosure) {
+            function (PostInsertObjectsEvent $event) use ($loggerClosure) {
                 $loggerClosure(count($event->getObjects()), $event->getPager()->getNbResults());
             }
         );
 
         $this->dispatcher->addListener(
             Events::POST_ASYNC_INSERT_OBJECTS,
-            function(PostAsyncInsertObjectsEvent $event) use ($loggerClosure) {
+            function (PostAsyncInsertObjectsEvent $event) use ($loggerClosure) {
                 $loggerClosure($event->getObjectsCount(), $event->getPager()->getNbResults(), $event->getErrorMessage());
             }
         );
 
         if ($options['ignore_errors']) {
-            $this->dispatcher->addListener(Events::ON_EXCEPTION, function(OnExceptionEvent $event) {
+            $this->dispatcher->addListener(Events::ON_EXCEPTION, function (OnExceptionEvent $event) {
                 if ($event->getException() instanceof BulkResponseException) {
                     $event->setIgnore(true);
                 }
@@ -255,7 +255,7 @@ class PopulateCommand extends Command
 
         $this->pagerPersister->insert($pager, $options);
 
-        $this->dispatcher->dispatch(TypePopulateEvent::POST_TYPE_POPULATE, $event);
+        $this->dispatcher->dispatch($event, TypePopulateEvent::POST_TYPE_POPULATE);
 
         $this->refreshIndex($output, $index);
     }

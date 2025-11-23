@@ -40,7 +40,7 @@ class ResetterTest extends TestCase
     private $indexManager;
     private $mappingBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->aliasProcessor = $this->createMock(AliasProcessor::class);
         $this->configManager = $this->createMock(ConfigManager::class);

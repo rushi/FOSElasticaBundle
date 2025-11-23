@@ -11,20 +11,16 @@
 
 namespace FOS\ElasticaBundle\Tests\Unit\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use FOS\ElasticaBundle\Doctrine\RepositoryManager;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use FOS\ElasticaBundle\Repository;
 use PHPUnit\Framework\TestCase;
 
-class CustomRepository
-{
-}
+class CustomRepository {}
 
-class NamespacedEntity
-{
-}
+class NamespacedEntity {}
 
 /**
  * @author Richard Miller <info@limethinking.co.uk>

@@ -38,8 +38,8 @@ class POPO3
     public function __construct()
     {
         $this->date = new \DateTime('1979-05-05');
-        $this->file = new \SplFileInfo(__DIR__.'/fixtures/attachment.odt');
-        $this->fileContents = file_get_contents(__DIR__.'/fixtures/attachment.odt');
+        $this->file = new \SplFileInfo(__DIR__ . '/fixtures/attachment.odt');
+        $this->fileContents = file_get_contents(__DIR__ . '/fixtures/attachment.odt');
     }
 
     public function getId()
@@ -215,13 +215,14 @@ class ModelToElasticaAutoTransformerTest extends TestCase
     {
         $transformer = $this->getTransformer();
         $document = $transformer->transform(
-            new POPO3(), [
-                             'name' => [],
-                             'float' => [],
-                             'bool' => [],
-                             'date' => [],
-                             'falseBool' => [],
-                        ]
+            new POPO3(),
+            [
+                'name' => [],
+                'float' => [],
+                'bool' => [],
+                'date' => [],
+                'falseBool' => [],
+            ]
         );
         $data = $document->getData();
 
@@ -252,9 +253,10 @@ class ModelToElasticaAutoTransformerTest extends TestCase
 
         $this->assertSame(
             [
-                 'key1' => 'value1',
-                 'key2' => 'value2',
-            ], $data['array']
+                'key1' => 'value1',
+                'key2' => 'value2',
+            ],
+            $data['array']
         );
     }
 
@@ -268,9 +270,10 @@ class ModelToElasticaAutoTransformerTest extends TestCase
 
         $this->assertSame(
             [
-                 'key1' => 'value1',
-                 'key2' => ['value2', false, 123, 8.9, $expectedDate->format('c')],
-            ], $data['multiArray']
+                'key1' => 'value1',
+                'key2' => ['value2', false, 123, 8.9, $expectedDate->format('c')],
+            ],
+            $data['multiArray']
         );
     }
 
@@ -298,7 +301,7 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $document = $transformer->transform(new POPO3(), ['file' => ['type' => 'attachment']]);
         $data = $document->getData();
 
-        $this->assertSame(base64_encode(file_get_contents(__DIR__.'/fixtures/attachment.odt')), $data['file']);
+        $this->assertSame(base64_encode(file_get_contents(__DIR__ . '/fixtures/attachment.odt')), $data['file']);
     }
 
     public function testFileContentsAddedForAttachmentMapping()
@@ -308,7 +311,8 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $data = $document->getData();
 
         $this->assertSame(
-            base64_encode(file_get_contents(__DIR__.'/fixtures/attachment.odt')), $data['fileContents']
+            base64_encode(file_get_contents(__DIR__ . '/fixtures/attachment.odt')),
+            $data['fileContents']
         );
     }
 
@@ -324,49 +328,49 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $data = $document->getData();
 
         $this->assertTrue(array_key_exists('sub', $data));
-        $this->assertInternalType('array', $data['sub']);
+        $this->assertIsArray($data['sub']);
         $this->assertSame([
-             ['foo' => 'foo'],
-             ['foo' => 'bar'],
-           ], $data['sub']);
+            ['foo' => 'foo'],
+            ['foo' => 'bar'],
+        ], $data['sub']);
     }
 
     public function tesObjectMapping()
     {
         $transformer = $this->getTransformer();
         $document = $transformer->transform(new POPO3(), [
-                'sub' => [
-                    'type' => 'object',
-                    'properties' => ['bar'],
-                    ],
-                ]);
+            'sub' => [
+                'type' => 'object',
+                'properties' => ['bar'],
+            ],
+        ]);
         $data = $document->getData();
 
         $this->assertTrue(array_key_exists('sub', $data));
-        $this->assertInternalType('array', $data['sub']);
+        $this->assertIsArray($data['sub']);
         $this->assertSame([
-             ['bar' => 'foo'],
-             ['bar' => 'bar'],
-           ], $data['sub']);
+            ['bar' => 'foo'],
+            ['bar' => 'bar'],
+        ], $data['sub']);
     }
 
     public function testObjectDoesNotRequireProperties()
     {
         $transformer = $this->getTransformer();
         $document = $transformer->transform(new POPO3(), [
-                'obj' => [
-                    'type' => 'object',
-                    ],
-                ]);
+            'obj' => [
+                'type' => 'object',
+            ],
+        ]);
         $data = $document->getData();
 
         $this->assertTrue(array_key_exists('obj', $data));
-        $this->assertInternalType('array', $data['obj']);
+        $this->assertIsArray($data['obj']);
         $this->assertSame([
-             'foo' => 'foo',
-             'bar' => 'foo',
-             'id' => 1,
-       ], $data['obj']);
+            'foo' => 'foo',
+            'bar' => 'foo',
+            'id' => 1,
+        ], $data['obj']);
     }
 
     public function testObjectsMappingOfAtLeastOneAutoMappedObjectAndAtLeastOneManuallyMappedObject()
@@ -395,8 +399,8 @@ class ModelToElasticaAutoTransformerTest extends TestCase
 
         $this->assertTrue(array_key_exists('obj', $data));
         $this->assertTrue(array_key_exists('nestedObject', $data));
-        $this->assertInternalType('array', $data['obj']);
-        $this->assertInternalType('array', $data['nestedObject']);
+        $this->assertIsArray($data['obj']);
+        $this->assertIsArray($data['nestedObject']);
         $this->assertSame(
             [
                 'foo' => 'foo',
@@ -469,7 +473,7 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $data = $document->getData();
 
         $this->assertTrue(array_key_exists('objWithoutIdentifier', $data));
-        $this->assertInternalType('array', $data['objWithoutIdentifier']);
+        $this->assertIsArray($data['objWithoutIdentifier']);
         $this->assertSame([
             'foo' => 'foo',
             'bar' => 'foo',
@@ -491,7 +495,7 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $data = $document->getData();
 
         $this->assertTrue(array_key_exists('subWithoutIdentifier', $data));
-        $this->assertInternalType('array', $data['subWithoutIdentifier']);
+        $this->assertIsArray($data['subWithoutIdentifier']);
         $this->assertSame([
             ['foo' => 'foo', 'bar' => 'foo'],
             ['foo' => 'bar', 'bar' => 'bar'],
@@ -526,7 +530,7 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         ]);
 
         $data = $document->getData();
-        $this->assertInternalType('array', $data['nullValue']);
+        $this->assertIsArray($data['nullValue']);
         $this->assertEmpty($data['nullValue']);
     }
 

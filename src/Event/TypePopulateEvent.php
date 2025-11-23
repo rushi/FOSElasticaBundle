@@ -11,7 +11,7 @@
 
 namespace FOS\ElasticaBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+// Removed unused legacy Event import; IndexPopulateEvent already extends new Event via IndexEvent.
 
 /**
  * Type Populate Event.

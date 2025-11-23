@@ -22,7 +22,7 @@ class ConfigurationTest extends TestCase
      */
     private $processor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->processor = new Processor();
     }
@@ -182,17 +182,17 @@ class ConfigurationTest extends TestCase
     public function testUnconfiguredType()
     {
         $configuration = $this->getConfigs([
-                'clients' => [
-                    'default' => ['url' => 'http://localhost:9200'],
-                ],
-                'indexes' => [
-                    'test' => [
-                        'types' => [
-                            'test' => null,
-                        ],
+            'clients' => [
+                'default' => ['url' => 'http://localhost:9200'],
+            ],
+            'indexes' => [
+                'test' => [
+                    'types' => [
+                        'test' => null,
                     ],
                 ],
-            ]);
+            ],
+        ]);
 
         $this->assertArrayHasKey('properties', $configuration['indexes']['test']['types']['test']);
     }
@@ -316,13 +316,12 @@ class ConfigurationTest extends TestCase
         // test defaults
         $configuration = $this->getConfigs([
             'clients' => [
-                'default' => [
-                ],
+                'default' => [],
             ],
         ]);
         $connection = $configuration['clients']['default']['connections'][0];
         $this->assertSame([400, 403, 404], $connection['http_error_codes']);
-        
+
         // test custom
         $configuration = $this->getConfigs([
             'clients' => [

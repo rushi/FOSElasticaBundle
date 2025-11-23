@@ -74,9 +74,9 @@ class ElasticaToModelTransformerCollectionTest extends TestCase
         $result2 = new POPO2(124, 'not so much data');
 
         $this->transformers['type1']->expects($this->once())
-         ->method('transform')
-         ->with([$document1, $document2])
-         ->will($this->returnValue([$result1, $result2]));
+            ->method('transform')
+            ->with([$document1, $document2])
+            ->will($this->returnValue([$result1, $result2]));
 
         $results = $this->collection->transform([$document1, $document2]);
 
@@ -100,9 +100,9 @@ class ElasticaToModelTransformerCollectionTest extends TestCase
         $result2 = new POPO2($idObject2, 'not so much data');
 
         $this->transformers['type1']->expects($this->once())
-         ->method('transform')
-         ->with([$document1, $document2])
-         ->will($this->returnValue([$result1, $result2]));
+            ->method('transform')
+            ->with([$document1, $document2])
+            ->will($this->returnValue([$result1, $result2]));
 
         $results = $this->collection->transform([$document1, $document2]);
 
@@ -116,12 +116,12 @@ class ElasticaToModelTransformerCollectionTest extends TestCase
     {
         $collection = new ElasticaToModelTransformerCollection([]);
         $identifiers = $collection->getIdentifierField();
-        $this->assertInternalType('array', $identifiers);
+        $this->assertIsArray($identifiers);
         $this->assertEmpty($identifiers);
 
         $this->collectionSetup();
         $identifiers = $this->collection->getIdentifierField();
-        $this->assertInternalType('array', $identifiers);
+        $this->assertIsArray($identifiers);
         $this->assertSame(['type1' => 'id', 'type2' => 'id'], $identifiers);
     }
 
@@ -132,7 +132,8 @@ class ElasticaToModelTransformerCollectionTest extends TestCase
 
         return [
             [
-                $result, $transformedObject,
+                $result,
+                $transformedObject,
             ],
         ];
     }
@@ -154,7 +155,7 @@ class ElasticaToModelTransformerCollectionTest extends TestCase
 
         $hybridResults = $collection->hybridTransform([$result]);
 
-        $this->assertInternalType('array', $hybridResults);
+        $this->assertIsArray($hybridResults);
         $this->assertNotEmpty($hybridResults);
         $this->assertContainsOnlyInstancesOf(HybridResult::class, $hybridResults);
 
@@ -210,9 +211,7 @@ class POPO
     }
 }
 
-class POPO2 extends POPO
-{
-}
+class POPO2 extends POPO {}
 
 class IDObject
 {

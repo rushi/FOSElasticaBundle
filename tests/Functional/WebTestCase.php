@@ -27,28 +27,29 @@ use Symfony\Component\Filesystem\Filesystem;
 /*
  * Based on https://github.com/symfony/symfony/blob/2.7/src/Symfony/Bundle/FrameworkBundle/Tests/Functional/WebTestCase.php
  */
+
 class WebTestCase extends BaseKernelTestCase
 {
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
-        require_once __DIR__.'/app/AppKernel.php';
+        require_once __DIR__ . '/app/AppKernel.php';
 
         return AppKernel::class;
     }
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         static::deleteTmpDir();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         static::deleteTmpDir();
     }
 
-    protected static function deleteTmpDir()
+    protected static function deleteTmpDir(): void
     {
-        if (!file_exists($dir = sys_get_temp_dir().'/'.static::getVarDir())) {
+        if (!file_exists($dir = sys_get_temp_dir() . '/' . static::getVarDir())) {
             return;
         }
         $fs = new Filesystem();
@@ -67,12 +68,12 @@ class WebTestCase extends BaseKernelTestCase
             static::getVarDir(),
             $options['test_case'],
             isset($options['root_config']) ? $options['root_config'] : 'config.yml',
-            isset($options['environment']) ? $options['environment'] : strtolower(static::getVarDir().$options['test_case']),
+            isset($options['environment']) ? $options['environment'] : strtolower(static::getVarDir() . $options['test_case']),
             isset($options['debug']) ? $options['debug'] : true
         );
     }
 
-    protected static function getVarDir()
+    protected static function getVarDir(): string
     {
         return substr(strrchr(get_called_class(), '\\'), 1);
     }

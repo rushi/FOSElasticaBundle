@@ -2,7 +2,7 @@
 
 namespace FOS\ElasticaBundle\Tests\Unit\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\ODM\PHPCR\DocumentRepository;
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class PHPCRPagerProviderTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(DocumentManager::class)) {
             $this->markTestSkipped('Doctrine PHPCR is not present');
@@ -77,7 +77,9 @@ class PHPCRPagerProviderTest extends TestCase
         $adapter = $pager->getPagerfanta()->getAdapter();
         $this->assertInstanceOf(DoctrineODMPhpcrAdapter::class, $adapter);
 
-        $this->assertAttributeSame($expectedBuilder, 'queryBuilder', $adapter);
+        $ref = new \ReflectionProperty($adapter, 'queryBuilder');
+        $ref->setAccessible(true);
+        $this->assertSame($expectedBuilder, $ref->getValue($adapter));
     }
 
     public function testShouldAllowCallCustomRepositoryMethod()

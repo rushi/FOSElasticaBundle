@@ -11,9 +11,9 @@
 
 namespace FOS\ElasticaBundle\Tests\Unit\Doctrine\ORM;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -39,7 +39,7 @@ class ElasticaToModelTransformerTest extends TestCase
      */
     protected $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->registry = $this->createMock(ManagerRegistry::class);
         $this->manager = $this->createMock(ObjectManager::class);
@@ -152,6 +152,6 @@ class ElasticaToModelTransformerTest extends TestCase
         $method = $class->getMethod('findByIdentifiers');
         $method->setAccessible(true);
 
-        $method->invokeArgs($transformer, [[1, 2, 3], /* $hydrate */true]);
+        $method->invokeArgs($transformer, [[1, 2, 3], /* $hydrate */ true]);
     }
 }

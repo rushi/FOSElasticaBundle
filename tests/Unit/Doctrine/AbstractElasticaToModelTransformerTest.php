@@ -11,7 +11,7 @@
 
 namespace FOS\ElasticaBundle\Tests\Unit\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Elastica\Result;
 use FOS\ElasticaBundle\Doctrine\AbstractElasticaToModelTransformer;
 use FOS\ElasticaBundle\Doctrine\ORM\ElasticaToModelTransformer;
@@ -33,7 +33,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
      */
     protected $objectClass = 'stdClass';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->registry = $this->createMock(ManagerRegistry::class);
     }
@@ -166,7 +166,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $results = $transformer->transform($elasticaResults);
 
         foreach ($results as $result) {
-            $this->assertInternalType('array', $result->highlights);
+            $this->assertIsArray($result->highlights);
             $this->assertNotEmpty($result->highlights);
         }
     }

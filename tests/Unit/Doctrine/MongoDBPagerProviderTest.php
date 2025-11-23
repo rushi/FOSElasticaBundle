@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 class MongoDBPagerProviderTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(DocumentManager::class)) {
             $this->markTestSkipped('Doctrine MongoDB ODM is not available.');
@@ -77,7 +77,9 @@ class MongoDBPagerProviderTest extends TestCase
         $adapter = $pager->getPagerfanta()->getAdapter();
         $this->assertInstanceOf(DoctrineODMMongoDBAdapter::class, $adapter);
 
-        $this->assertAttributeSame($expectedBuilder, 'queryBuilder', $adapter);
+        $ref = new \ReflectionProperty($adapter, 'queryBuilder');
+        $ref->setAccessible(true);
+        $this->assertSame($expectedBuilder, $ref->getValue($adapter));
     }
 
     public function testShouldAllowCallCustomRepositoryMethod()
@@ -141,7 +143,7 @@ class MongoDBPagerProviderTest extends TestCase
             ->with($this->identicalTo($manager), $this->isInstanceOf(PagerInterface::class), $baseConfig)
         ;
 
-        $provider = new MongoDBPagerProvider($doctrine,$registerListenersMock, $objectClass, $baseConfig);
+        $provider = new MongoDBPagerProvider($doctrine, $registerListenersMock, $objectClass, $baseConfig);
 
         $provider->provide();
     }
