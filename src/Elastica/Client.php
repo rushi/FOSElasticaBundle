@@ -50,7 +50,7 @@ class Client extends BaseClient
     /**
      * {@inheritdoc}
      */
-    public function request(string $path, string $method = Request::GET, $data = [], array $query = [], string $contentType = Request::DEFAULT_CONTENT_TYPE): \Elastica\Response
+    public function request($path, $method = Request::GET, $data = [], array $query = [], $contentType = Request::DEFAULT_CONTENT_TYPE)
     {
         if ($this->stopwatch) {
             $this->stopwatch->start('es_request', 'fos_elastica');
@@ -85,7 +85,7 @@ class Client extends BaseClient
     /**
      * {@inheritdoc}
      */
-    public function getIndex(string $name): \Elastica\Index
+    public function getIndex($name)
     {
         if (isset($this->indexCache[$name])) {
             return $this->indexCache[$name];
