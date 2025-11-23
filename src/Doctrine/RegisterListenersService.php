@@ -1,7 +1,7 @@
 <?php
 namespace FOS\ElasticaBundle\Doctrine;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\ElasticaBundle\Persister\Event\Events;
