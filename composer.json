@@ -37,7 +37,7 @@
         "symfony/property-access": "^5.4",
         "pagerfanta/pagerfanta": "^2.0",
         "psr/log": "^1.0|^2.0",
-        "ruflin/elastica": "^6.0"
+        "ruflin/elastica": "^7.0"
     },
     "require-dev": {
         "doctrine/orm": "^2.9",
